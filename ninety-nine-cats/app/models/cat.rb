@@ -19,28 +19,28 @@ class Cat < ApplicationRecord
 
     CAT_COLORS = ['black', 'white', 'grey', 'chocolate', 'cream']
 
-    validates :birth_date, :color, :name, :sex, presence: true 
+    validates :birth_date, :color, :name, :sex, presence: true
     validates :color, inclusion: {in: CAT_COLORS }
     validates :sex, inclusion: {in: %w(M F)}
     validate :birth_date_cannot_be_future
 
 
-    def birth_date_cannot_be_future 
+    def birth_date_cannot_be_future
         parsed = DateTime.parse(birth_date.to_s)
         yr = parsed.year
         month = parsed.month
-        day = parsed.day 
+        day = parsed.day
 
-        if Date.today < birth_date 
+        if Date.today < birth_date
             errors.add(:birth_date, "cannot be in the future...")
         elsif !Date.valid_date?(yr, month, day)
             errors.add(:birth_date, "invalid date...")
-        end 
-    end 
+        end
+    end
 
-    def age 
+    def age
         time_ago_in_words(birth_date)
-    end 
+    end
 
 
 end
